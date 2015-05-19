@@ -17,7 +17,7 @@ Partial Public Class Parser
       Public Overrides Function ToString() As String
         Return $"{String.Join(_S, _A)}"
       End Function
-      
+
       Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         Dim curr = index
         Dim res As ParseResult

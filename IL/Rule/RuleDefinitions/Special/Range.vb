@@ -1,28 +1,28 @@
 ﻿Imports IL
 
 Partial Public Class Parser
-    Public MustInherit Class RuleDefinition
+  Public MustInherit Class RuleDefinition
 
-        Public Class Range
-            Inherits Special
-            Public ReadOnly Property Min As Char
-            Public ReadOnly Property Max As Char
+    Public Class Range
+      Inherits Special
+      Public ReadOnly Property Min As Char
+      Public ReadOnly Property Max As Char
 
-            Public Sub New(Min As Char, Max As Char)
-                Me.Min = Min : Me.Max = Max
-            End Sub
-            Public Overrides Function ToString() As String
-                Return $"'{Min}'-'{Max}'"
-            End Function
+      Public Sub New(Min As Char, Max As Char)
+        Me.Min = Min : Me.Max = Max
+      End Sub
+      Public Overrides Function ToString() As String
+        Return $"'{Min}'-'{Max}'"
+      End Function
 
-    Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
-                Dim c = Await  sr.Peek(index)
-                If (Min <= c) AndAlso (c <= Max) Then Return ParseResult.Yes(index, index + 1)
-                Return ParseResult.No(index, index)
-            End Function
-
-        End Class
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
+        Dim c = Await sr.Peek(index)
+        If (Min <= c) AndAlso (c <= Max) Then Return ParseResult.Yes(index, index + 1)
+        Return ParseResult.No(index, index)
+      End Function
 
     End Class
+
+  End Class
 
 End Class

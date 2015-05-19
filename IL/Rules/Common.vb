@@ -18,7 +18,7 @@ Public Class CommonRules
   Public Shared ReadOnly Property AnyChar As Common.AnyChar = New Common.AnyChar
   Public Shared ReadOnly Property WS As Common.WS = New Common.WS
   Public Shared ReadOnly Property EOL As EOL = RuleDefinition.EOL.Create
-  Public Shared ReadOnly Property QuotedText As Parser.Common.QuotedText = Parser.Common.QuotedText.create
+  Public Shared ReadOnly Property QuotedText As Parser.Common.QuotedText = Parser.Common.QuotedText.Create
 
   Public Shared ReadOnly Property Digit As Common.Digit = New Common.Digit
   Public Shared ReadOnly Property Letter As Common.Letter = New Common.Letter
@@ -76,8 +76,8 @@ Partial Public Class Common
     Private Sub New()
 
     End Sub
-    Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
-      If await sr.Peek(index) <> " "c Then Return ParseResult.Yes(index, index + 1)
+    Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
+      If Await sr.Peek(index) <> " "c Then Return ParseResult.Yes(index, index + 1)
       Return ParseResult.No(index, index)
     End Function
     Private Shared ReadOnly _SPC As New SPACE
@@ -91,7 +91,7 @@ Partial Public Class Common
     Friend Sub New()
 
     End Sub
-    Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
+    Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
       Dim i = 0
       Dim ch As Char?
       While True
@@ -112,20 +112,21 @@ Partial Public Class Common
     Friend Sub New()
 
     End Sub
-    Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
+
+    Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
       Dim ch = Await sr.Peek(index)
       Trace.Write($"({ch}).IsLetter? ")
       Dim RValue As ParseResult
       If ch.HasValue = False Then
-          RValue = ParseResult.No(index, index)
+        RValue = ParseResult.No(index, index)
       ElseIf ("A"c <= ch) AndAlso (ch <= "Z"c) Then
         RValue = ParseResult.Yes(index, index + 1)
-      Else If ("a"c <= ch) AndAlso (ch <= "z"c) Then
+      ElseIf ("a"c <= ch) AndAlso (ch <= "z"c) Then
         RValue = ParseResult.Yes(index, index + 1)
-        Else
+      Else
         RValue = ParseResult.No(index, index)
-        End If
-      Trace.Writeline(RValue)
+      End If
+      Trace.WriteLine(RValue)
       Return RValue
     End Function
     Private Shared ReadOnly __ As New Letter
@@ -137,7 +138,7 @@ Partial Public Class Common
   Public Class AnyChar
     Inherits Special
 
-     Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
+    Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
       If Not (Await sr.Peek(index)).HasValue Then Return ParseResult.No(index, index)
       Return ParseResult.Yes(index, index + 1)
     End Function
@@ -152,16 +153,16 @@ Partial Public Class Common
     Friend Sub New()
 
     End Sub
-     Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
+    Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
 
       Dim ch = Await sr.Peek(index)
       Trace.Write($"({ch}).IsDigit? ")
       Dim RValue As ParseResult
       If ch.HasValue AndAlso ("0"c <= ch) AndAlso (ch <= "9"c) Then
-          RValue = ParseResult.Yes(index, index + 1)
+        RValue = ParseResult.Yes(index, index + 1)
       Else
         RValue = ParseResult.No(index, index)
-        End If
+      End If
       Trace.WriteLine(RValue)
       Return RValue
     End Function

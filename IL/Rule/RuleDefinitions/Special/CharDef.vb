@@ -11,7 +11,7 @@
         Return $"'{C}'"
       End Function
 
-    Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         Dim ch As Char? = Await sr.Peek(index)
         Trace.Write($"Does ({ch}) = ({C}) ? ")
         Dim RValue As ParseResult

@@ -18,7 +18,7 @@ Partial Public Class Parser
         Me.Max = max
       End Sub
 
-      Friend Async Function CountReps(sr As SourceReader, R As RuleDefinition, index As Integer) As Task(of Tuple(Of Integer, Integer, Integer))
+      Friend Async Function CountReps(sr As SourceReader, R As RuleDefinition, index As Integer) As Task(Of Tuple(Of Integer, Integer, Integer))
         Dim si = index
         Dim Count = 0
         Dim Ok = True
@@ -36,7 +36,7 @@ Partial Public Class Parser
       End Function
 
 
-      Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         'Trace.WriteLine($"Repeats {Min} to {Max} times: ")
         'Trace.Indent()
         Dim si = index
@@ -45,7 +45,7 @@ Partial Public Class Parser
         If (Me.Min <= count) AndAlso (count <= Me.Max) Then
           Return ParseResult.Yes(si, res.Item3)
         Else
-          return ParseResult.No(si, res.Item3)
+          Return ParseResult.No(si, res.Item3)
         End If
         'Trace.Unindent 
         'Trace.WriteLine($"Result{{ Count: {res.Item1} }}")
@@ -65,11 +65,11 @@ Partial Public Class Parser
         Return $"[ {What} ]"
       End Function
 
-      Public Overrides async Function Parse(sr As SourceReader, index As Integer) As task(Of ParseResult)
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         Trace.WriteLine("Optional")
         Trace.WriteLine("{")
         Trace.Indent()
-        Dim rvalue  = Await MyBase.Parse(sr, index)
+        Dim rvalue = Await MyBase.Parse(sr, index)
         Trace.Unindent()
         Trace.WriteLine($"}} Result:= {rvalue}")
         Return rvalue
@@ -88,13 +88,13 @@ Partial Public Class Parser
         Return $"{{ {What} }}"
 
       End Function
-      Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         Trace.WriteLine("ZeroOrMore")
         Trace.WriteLine("{")
         Trace.Indent()
         Dim rvalue = Await MyBase.Parse(sr, index)
         Trace.Unindent()
-        Trace.WriteLine($"}} Result:= {RValue}")
+        Trace.WriteLine($"}} Result:= {rvalue}")
         Return rvalue
       End Function
     End Class
@@ -108,7 +108,7 @@ Partial Public Class Parser
       Public Overrides Function ToString() As String
         Return $"{What}+"
       End Function
-      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         Trace.WriteLine("OneOrMore")
         Trace.WriteLine("{")
         Trace.Indent()
