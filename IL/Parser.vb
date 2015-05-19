@@ -1,7 +1,7 @@
 ﻿Public Class Parser
-  Public ReadOnly Property Rules As Rules
+  Public ReadOnly Property Rules As Grammar
 
-  Public Sub New(rules As Rules)
+  Public Sub New(rules As Grammar)
     Me.Rules = rules
   End Sub
   Public Async Function Parse(sr As SourceReader) As Task(Of ParseResult)

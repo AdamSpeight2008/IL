@@ -2,8 +2,8 @@
   Partial Public Class RuleDefinition
     Public Class RuleRef
       Inherits TextDef_base
-      Public ReadOnly Property Rules As Rules
-      Public Sub New(Rules As Rules, RuleName As RuleName)
+      Public ReadOnly Property Rules As Grammar
+      Public Sub New(Rules As Grammar, RuleName As RuleName)
         MyBase.New(RuleName.Name.ToArray)
         Me.Rules = Rules
       End Sub

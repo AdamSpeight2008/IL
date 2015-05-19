@@ -2,7 +2,7 @@
 Imports IL.Parser.RuleDefinition
 Imports Microsoft.VisualBasic
 Public Class CommonRules
-  Inherits Rules
+  Inherits Grammar
   Private Shared _CommonDefs As New List(Of RuleDefinition)(10)
   Public Shared ReadOnly Property DOT As New RuleDefinition.CharDef("."c)
   Public Shared ReadOnly Property LBracket As New RuleDefinition.CharDef("("c)
@@ -57,7 +57,7 @@ Public Class CommonRules
 
 
 
-  Private Shadows Function AddRule(name As String, rule As RuleDefinition) As Rules
+  Private Shadows Function AddRule(name As String, rule As RuleDefinition) As Grammar
     Return MyBase.AddRule(name, rule)
   End Function
 

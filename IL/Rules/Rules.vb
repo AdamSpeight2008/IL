@@ -1,7 +1,7 @@
 ﻿
 Imports IL.Parser
 
-Public Class Rules
+Public Class Grammar
 
   Private _Def As Rule = Nothing
   Public ReadOnly Property DEF As Rule
@@ -19,12 +19,12 @@ Public Class Rules
   Friend __ As New Dictionary(Of RuleName, Rule)
 
 
-  Shared Function Create() As Rules
-    Return New Rules()
+  Shared Function Create() As Grammar
+    Return New Grammar()
   End Function
 
 
-  Public Function AddRule(Name As String, RuleDef As RuleDefinition, Optional def As Boolean = False) As Rules
+  Public Function AddRule(Name As String, RuleDef As RuleDefinition, Optional def As Boolean = False) As Grammar
     Dim rn As New RuleName(Name)
     Dim ru As New Rule(rn, RuleDef)
     __.Add(rn, ru)

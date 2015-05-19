@@ -1,7 +1,7 @@
 ﻿Option Infer On
 Option Explicit On
 
-Imports IL.Rules
+Imports IL.Grammar
 Imports System.Runtime.CompilerServices
 Imports IL
 Imports IL.Parser
@@ -31,7 +31,7 @@ Module Module1
   End Sub
 
   Sub IL_Grammar()
-    Dim xs = Rules.Create
+    Dim xs = Grammar.Create
 
     xs.AddRule("DIGIT", "0"c.To("9"c)).
        AddRule("HEX_l", "a"c.To("f"c)).
@@ -44,7 +44,7 @@ Module Module1
     Console.Write(xs.PrettyPrint)
     Console.WriteLine()
     Console.WriteLine()
-    Dim ILAsm = Rules.Create
+    Dim ILAsm = Grammar.Create
 
     ILAsm.
        AddRule("/* EMPTY */", Nothing).

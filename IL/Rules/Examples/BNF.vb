@@ -1,7 +1,7 @@
 ﻿Imports IL.CommonRules
 
 Public Class BNF
-  Private Shared ReadOnly BNF As Rules = Rules.Create
+  Private Shared ReadOnly BNF As Grammar = Grammar.Create
 
   Shared Sub New()
     BNF.
@@ -10,7 +10,7 @@ Public Class BNF
         AddRule("QChar", {"'"c, BNF!any_character, "'"c}).
         AddRule("quoted_symbol", Common.AnyChar.Create).
         AddRule("symbol", "_"c).
-        AddRule("any_character", New Common.AnyChar).
+        AddRule("any_character", Common.AnyChar.Create).
         AddRule("rule", {WS, BNF!identifier, WS, "::=", WS, BNF!definition, BNF!EOL}).
         AddRule("definition", {BNF!expression, WS}).
         AddRule("expression", {BNF!term, WS, ZeroOrMore({"|"c, WS, BNF!term})})
@@ -29,7 +29,7 @@ Public Class BNF
         AddRule("optional", {LSquare, WS, BNF!expression, RSquare, WS})
   End Sub
 
-  Public Shared Function Create() As Rules
+  Public Shared Function Create() As Grammar
     Return BNF
   End Function
 End Class
