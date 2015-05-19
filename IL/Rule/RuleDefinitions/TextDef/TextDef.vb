@@ -17,9 +17,8 @@ Partial Public Class Parser
       End Function
 
 
-      Public Overrides Function Parse(sr As SourceReader, index As Integer) As ParseResult
-
-        Parse = MyBase.Parse(sr, index)
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
+        Return Await MyBase.Parse(sr, index)
       End Function
     End Class
   End Class

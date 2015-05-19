@@ -15,8 +15,8 @@ Partial Public Class Parser
                 Return $"'{Min}'-'{Max}'"
             End Function
 
-            Public Overrides Function Parse(sr As SourceReader, index As Integer) As ParseResult
-                Dim c = sr.Source.Chars(index)
+    Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
+                Dim c = Await  sr.Peek(index)
                 If (Min <= c) AndAlso (c <= Max) Then Return ParseResult.Yes(index, index + 1)
                 Return ParseResult.No(index, index)
             End Function

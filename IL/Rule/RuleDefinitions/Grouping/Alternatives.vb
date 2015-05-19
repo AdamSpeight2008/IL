@@ -6,24 +6,25 @@
         MyBase.New(" | ", a)
       End Sub
 
-      Public Overrides Function Parse(sr As SourceReader, index As Integer) As ParseResult
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         Trace.WriteLine("Alts")
         Trace.WriteLine("{")
         Trace.Indent()
         Dim si = index
         Dim curr = si
         Dim res As ParseResult
+        Dim RValue As ParseResult
         For Each g In _A
-          res = g.Parse(sr, curr)
-          If res.Valid Then Parse = ParseResult.Yes(si, res.EndsAt) : GoTo [exit]
+          res = Await g.Parse(sr, curr)
+          If res.Valid Then RValue = ParseResult.Yes(si, res.EndsAt) : GoTo [exit]
           curr = si
         Next
-        Parse = ParseResult.No(si, si)
+        RValue = ParseResult.No(si, si)
 [exit]:
         Trace.Unindent()
         Trace.Write("}  ")
-        Trace.WriteLine(Parse)
-
+        Trace.WriteLine(RValue)
+        Return RValue
       End Function
 
     End Class

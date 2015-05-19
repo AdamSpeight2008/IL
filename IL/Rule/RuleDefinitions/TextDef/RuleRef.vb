@@ -13,18 +13,20 @@
                 Return $"<{rn}>"
             End Function
 
-      Public Overrides Function Parse(sr As SourceReader, index As Integer) As ParseResult
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         Dim RuleName = MyText()
         Trace.WriteLine($"<{RuleName}>")
         Trace.WriteLine("{")
-        Trace.Indent
-                Dim d = Rules.__(rulename).Def
-                Parse = d.Parse(sr, index)
-        Trace.Unindent
-        Trace.WriteLine($"}} Result: {Parse}")
+        Trace.Indent()
+        Dim RValue As ParseResult
+        Dim d = Rules.__(RuleName).Def
+        RValue = Await d.Parse(sr, index)
+        Trace.Unindent()
+        Trace.WriteLine($"}} Result: {RValue}")
+        Return RValue
       End Function
 
-        End Class
+    End Class
 
     End Class
 End Class

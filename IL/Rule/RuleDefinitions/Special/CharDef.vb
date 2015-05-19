@@ -11,16 +11,17 @@
         Return $"'{C}'"
       End Function
 
-      Public Overrides Function Parse(sr As SourceReader, index As Integer) As ParseResult
-        Dim ch As Char? = sr(index)
+    Public Overrides async Function Parse(sr As SourceReader, index As Integer) As Task(of ParseResult)
+        Dim ch As Char? = Await sr.Peek(index)
         Trace.Write($"Does ({ch}) = ({C}) ? ")
-        If sr(index, 1) AndAlso ch = Me.C Then
-          Parse = ParseResult.Yes(index, index + 1)
+        Dim RValue As ParseResult
+        If Await sr.Peek(index, 1) AndAlso ch = Me.C Then
+          RValue = ParseResult.Yes(index, index + 1)
         Else
-          Parse = ParseResult.No(index, index)
+          RValue = ParseResult.No(index, index)
         End If
-        Trace.WriteLine(Parse)
-
+        Trace.WriteLine(RValue)
+        Return RValue
       End Function
 
     End Class

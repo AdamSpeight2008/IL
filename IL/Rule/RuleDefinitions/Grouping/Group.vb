@@ -17,12 +17,12 @@ Partial Public Class Parser
       Public Overrides Function ToString() As String
         Return $"{String.Join(_S, _A)}"
       End Function
-
-      Public Overrides Function Parse(sr As SourceReader, index As Integer) As ParseResult
+      
+      Public Overrides Async Function Parse(sr As SourceReader, index As Integer) As Task(Of ParseResult)
         Dim curr = index
         Dim res As ParseResult
         For Each g In _A
-          res = g.Parse(sr, curr)
+          res = Await g.Parse(sr, curr)
           If Not res.Valid Then Return ParseResult.No(index, res.EndsAt)
           curr = res.EndsAt
         Next

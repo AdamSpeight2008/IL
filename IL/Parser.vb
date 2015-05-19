@@ -4,8 +4,8 @@
     Public Sub New(rules As Rules)
         Me.Rules = rules
     End Sub
-    Public Function Parse(sr As SourceReader) As ParseResult
-        Return Rules.DEF.Def.Parse(sr, 0)
+    Public Async Function Parse(sr As SourceReader) As Task(Of ParseResult)
+        Return Await Task.Run(Function() Rules.DEF.Def.Parse(sr, 0))
     End Function
 
 End Class

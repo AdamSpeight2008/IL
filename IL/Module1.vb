@@ -8,29 +8,29 @@ Imports IL.Parser
 
 Module Module1
 
-    Sub Main()
-        Dim BNFRules =  BNF.create()
-        Dim re = BNFRules.PrettyPrint
+  Sub Main()
+    Dim BNFRules = BNF.Create()
+    Dim re = BNFRules.PrettyPrint
 
-        'Dim p = New SourceReader(New SourceText(  ControlChars.Quote & "symbol" & ControlChars.Quote ))
-        'Dim r = BNF("quoted_symbol")                          .Parse(p, 0)
-        Console.WriteLine(re)
-        Console.WriteLine($"Length {re.Length}")
-        Console.WriteLine()
-        Dim sr = New SourceReader(New SourceText(re))
-        Dim pr = BNFRules.GetParser
-        Dim sw As New Diagnostics.Stopwatch
-        sw.Start
-        Dim res = pr.Parse(sr)
-        sw.Stop
+    'Dim p = New SourceReader(New SourceText(  ControlChars.Quote & "symbol" & ControlChars.Quote ))
+    'Dim r = BNF("quoted_symbol")                          .Parse(p, 0)
+    Console.WriteLine(re)
+    Console.WriteLine($"Length {re.Length}")
+    Console.WriteLine()
+    Dim sr = New SourceReader(New SourceText(re))
+    Dim pr = BNFRules.GetParser
+    Dim sw As New Diagnostics.Stopwatch
+    sw.Start()
+    Dim res = pr.Parse(sr).Result
+    sw.Stop()
     Console.WriteLine($"Parsed [{res}]{res.Valid.Tick} in {sw.ElapsedMilliseconds}ms")
-    Dim s = sr.SubText(res.BeginsAt, res.EndsAt)
+    Dim s = sr.SubText(res.BeginsAt, res.EndsAt).Result
     Console.WriteLine()
     Console.WriteLine(s)
-    Console.ReadKey 
-    End Sub
+    Console.ReadKey()
+  End Sub
 
-    Sub IL_Grammar()
+  Sub IL_Grammar()
         Dim xs = Rules.Create
 
         xs.AddRule("DIGIT", "0"c.To("9"c)).
@@ -155,12 +155,12 @@ Public Class SourceText
         Return (0 <= index) AndAlso (index < Text.Length)
     End Function
 
-    Public Function Chars(Index As Integer) As Char? 
+    Public Async Function Chars(Index As Integer) As Task(Of Char?)
         If CanGet(Index) Then Return New Char?(Text(Index))
         Return New Char?()
     End Function
 
-    Public Function SubText(si As Integer, ei As Integer) As String
+    Public Async Function SubText(si As Integer, ei As Integer) As Task(of String)
         If ei <= 0 Then Return ""
     Dim len = (ei - si) - 1
     Return Text.Substring(si, len)
